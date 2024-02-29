@@ -185,6 +185,8 @@ require '../forms/menu.php';
 
                     echo '</tbody>
                             </table>';
+                            // Incluye el archivo modalentradasalida.php
+                            include 'modalentradasalida.php';
                   } else {
                     echo "No se encontraron resultados.";
                   }
