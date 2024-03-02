@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Loguin Almacen UT</title>
+  <title>Registro Almacen UT</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -28,7 +28,6 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
-
   <!-- =======================================================
   * Template Name: NiceAdmin
   * Updated: Mar 09 2023 with Bootstrap v5.2.3
@@ -43,7 +42,7 @@
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
-  }
+}
   </style>
 </head>
 
@@ -60,7 +59,7 @@
               <div class="d-flex justify-content-center py-4">
                 <a href="index.php" class="logo d-flex align-items-center w-auto">
                   <img src="assets/img/img/logo.png" alt="" width="50">
-                  <span class="d-none d-lg-block">Almacen UTA</span>
+                  <span class="d-none d-lg-block">Almacen UT</span>
                 </a>
               </div><!-- End Logo -->
 
@@ -69,40 +68,31 @@
                 <div class="card-body">
 
                   <div class="pt-4 pb-2">
-                    <h5 class="card-title text-center pb-0 fs-4">Ingrese su cuenta</h5>
-                    <p class="text-center small">Ingrese su nombre de usuario y contraseña para iniciar sesión</p>
+                    <h5 class="card-title text-center pb-0 fs-4"> Crea una cuenta </h5>
+                    <p class="text-center small">Ingrese a tu cuenta google para realizar el registro</p>
                   </div>
 
-                  <form action="database/login.php" method="POST" class="row g-3 needs-validation" novalidate>
-
+                  <div class="row g-3 needs-validation">
                     <div class="col-12">
-                      <label for="Correo" class="form-label">Correo</label>
-                      <div class="input-group has-validation">
-                        <span class="input-group-text" id="inputGroupPrepend">@</span>
-                        <input type="text" name="correo" class="form-control" id="correo" required>
-                        <div class="invalid-feedback">Por favor, ingrese su Correo.</div>
-                      </div>
-                    </div>
-
-                    <div class="col-12">
-                      <label for="Contraseña" class="form-label">Contraseña</label>
-                      <input type="password" name="contra" class="form-control" id="contra" required>
-                      <div class="invalid-feedback">!Porfa ingrese su contraseña!</div>
-                    </div>
-
-                    <div class="col-12">
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe">
-                        <label class="form-check-label" for="rememberMe">Recordar Contraseña</label>
-                      </div>
+                    <?php
+                        include('config.php');
+                        if(isset($_GET["code"]))
+                        {
+                        $token = $google_client->fetchAccessTokenWithAuthCode($_GET["code"]);
+                        if(!isset($token['error']))
+                        {
+                        $google_client->setAccessToken($token['access_token']);
+                        $google_service = new Google_Service_Oauth2($google_client);
+                        $data = $google_service->userinfo->get();
+                        }
+                        }
+                        ?>
+                      <a href="<?php echo $google_client->createAuthUrl();?>" class="btn btn-primary w-100">Crear cuenta</a>
                     </div>
                     <div class="col-12">
-                      <button class="btn btn-primary w-100" type="submit">Ingresar</button>
+                      <p class="small mb-0">¿Ya tienes una cuenta? <a href="index.php">Iniciar Sesión</a></p>
                     </div>
-                    <div class="col-12">
-                      <p class="small mb-0">¿No tienes cuenta?<a href="registro">Crea una cuenta</a></p>
-                    </div>
-                  </form>
+                  </div>
 
                 </div>
               </div>
@@ -112,7 +102,7 @@
                 <!-- You can delete the links only if you purchased the pro version. -->
                 <!-- Licensing information: https://bootstrapmade.com/license/ -->
                 <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-                Diseñada por<a href="#"> Victoria Cruz</a>
+                Diseñado por <a href="#">Victoria Cruz</a>
               </div>
 
             </div>
@@ -138,7 +128,7 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </body>
 
 </html>

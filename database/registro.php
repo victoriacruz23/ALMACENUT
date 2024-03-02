@@ -1,12 +1,12 @@
 <?php
 include 'conexion.php';
 
-$nombre = $_POST['nombre'];
-$ape1 = $_POST['apellidop'];
-$ape2 = $_POST['apellidom'];
-$correo = $_POST['email'];
-$pass = $_POST['pass'];
-$rol = $_POST['rol'];
+$nombre = filter_var($conexion->real_escape_string($_POST['nombre']),FILTER_SANITIZE_STRING);
+$ape1 = filter_var($conexion->real_escape_string($_POST['apellidop']),FILTER_SANITIZE_STRING);
+$ape2 = filter_var($conexion->real_escape_string($_POST['apellidom']),FILTER_SANITIZE_STRING);
+$correo = filter_var($conexion->real_escape_string($_POST['email']),FILTER_SANITIZE_EMAIL);
+$pass = filter_var($conexion->real_escape_string($_POST['pass']),FILTER_SANITIZE_STRING);
+$rol = filter_var($conexion->real_escape_string($_POST['rol']),FILTER_SANITIZE_NUMBER_INT);
 $img = $_FILES['img'];
 
 $queryname = "SELECT * FROM usuario  WHERE correo= '$correo'";

@@ -36,18 +36,55 @@
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
   <style>
-  body{
-    background-image: url(imgpro/gastro.png);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-attachment: fixed;
-}
+    body {
+      background-image: url(imgpro/gastro.png);
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-attachment: fixed;
+    }
   </style>
 </head>
 
 <body>
+  <?php
 
+  include('config.php');
+
+  if (isset($_GET["code"])) {
+    $token = $google_client->fetchAccessTokenWithAuthCode($_GET["code"]);
+
+    if (!isset($token['error'])) {
+      $google_client->setAccessToken($token['access_token']);
+      $_SESSION['access_token'] = $token['access_token'];
+      $google_service = new Google_Service_Oauth2($google_client);
+      $data = $google_service->userinfo->get();
+      if (!empty($data['given_name'])) {
+        $nombre = $data['given_name'];
+      }
+      if (!empty($data['family_name'])) {
+        $apellidos = $data['family_name'];
+      }
+
+      if (!empty($data['email'])) {
+        $correo = $data['email'];
+      }
+
+      if (!empty($data['gender'])) {
+        $genero = $data['gender'];
+      }
+
+      if (!empty($data['picture'])) {
+        $imagen = $data['picture'];
+      }
+    } else {
+      // Redireccionar a otro documento para evitar errores
+      header("Location: registro");
+      exit();
+    }
+  }
+
+  ?>
   <main>
     <div class="container">
 
@@ -73,28 +110,24 @@
                   </div>
 
                   <form action="database/registro.php" method="POST" class="row g-3 needs-validation" novalidate enctype="multipart/form-data">
+                    <div class="col-12" style="justify-content: centers;">
+                      <img src="<?php echo $imagen ?>" class="img-responsive img-circle img-thumbnail" />
+                    </div>
                     <div class="col-12">
                       <label for="Name" class="form-label">Nombre</label>
-                      <input type="text" name="nombre" class="form-control" id="nombre" required>
-                      <div class="invalid-feedback">¡Por favor, escriba su nombre!</div>
+                      <p class="form-control"><?php echo $nombre ?> </p>
+                      <input type="hidden" value="<?php echo $nombre ?>" name="nombre" id="nombre" required>
                     </div>
                     <div class="col-12">
-                      <label for="apellidop" class="form-label">Apellido Paterno</label>
-                      <input type="text" name="apellidop" class="form-control" id="apllidop" required>
-                      <div class="invalid-feedback">¡Por favor, escriba su nombre!</div>
+                      <label for="apellidop" class="form-label">Apellidos</label>
+                      <p class="form-control"><?php echo $apellidos ?></p>
+                      <input type="hidden" name="apellidop" value="<?php echo $apellidos ?>" id="apllidop" required>
                     </div>
-                    <div class="col-12">
-                      <label for="apellidom" class="form-label">Apellido Materno</label>
-                      <input type="text" name="apellidom" class="form-control" id="apellidom" required>
-                      <div class="invalid-feedback">¡Por favor, escriba su nombre!</div>
-                    </div>
-
                     <div class="col-12">
                       <label for="Email" class="form-label">Correo Electronico</label>
-                      <input type="email" name="email" class="form-control" id="email" required>
-                      <div class="invalid-feedback">¡Por favor, introduce una dirección de correo electrónico válida!</div>
+                      <input type="hidden" name="email" value="<?php echo $correo; ?>" id="email" required>
+                      <p class="form-control"><?php echo $correo; ?></p>
                     </div>
-
                     <div class="col-12">
                       <label for="Password" class="form-label">Contraseña</label>
                       <input type="password" name="pass" class="form-control" id="pass" required>
@@ -115,7 +148,8 @@
                     <div class="col-12">
                       <div class="form-check">
                         <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" required>
-                        <label class="form-check-label" for="acceptTerms">Estoy de acuerdo y acepto los<a href="#"> terminos  y condiciones</a></label>
+                        <label class="form-check-label" for="acceptTerms">Estoy de acuerdo y acepto los<a href="#">
+                            terminos y condiciones</a></label>
                         <div class="invalid-feedback">Debes aceptar antes de enviar.</div>
                       </div>
                     </div>
