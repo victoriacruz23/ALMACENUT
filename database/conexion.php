@@ -1,7 +1,7 @@
 <?php
 	$server = "localhost";
 	$user = "root";
-	$password = "admin1";//poner tu propia contraseña, si tienes una.
+	$password = "";//poner tu propia contraseña, si tienes una.
 	// $password = "admin1";//poner tu propia contraseña, si tienes una.
 	$bd = "inventario";
 

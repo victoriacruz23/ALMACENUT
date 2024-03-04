@@ -2,5 +2,7 @@ Options All -Indexes
 RewriteEngine on
 RewriteCond %{SCRIPT_FILENAME} !-d
 RewriteCond %{SCRIPT_FILENAME} !-f
+
 RewriteRule ^registro$ registro.php [L]
 RewriteRule ^registro-google$ register.php [L]
+RewriteRule ^registro-database$ database/registro.php [L]

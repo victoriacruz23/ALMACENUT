@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -48,28 +49,31 @@
 
 <body>
   <?php
-
+  if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+  require_once('database/conexion.php');
   include('config.php');
-
   if (isset($_GET["code"])) {
     $token = $google_client->fetchAccessTokenWithAuthCode($_GET["code"]);
-
     if (!isset($token['error'])) {
       $google_client->setAccessToken($token['access_token']);
       $_SESSION['access_token'] = $token['access_token'];
       $google_service = new Google_Service_Oauth2($google_client);
       $data = $google_service->userinfo->get();
+
+      if (!empty($data['email'])) {
+        $correo = $data['email'];
+        $consulta = $conexion->query("SELECT * FROM usuario WHERE correo = '$correo'");
+        if ($consulta->num_rows > 0) {
+          header("Location: registro?correo=" . urlencode($correo));
+          exit(); // Asegura que no se ejecuten más instrucciones después de la redirección
+        }
+      }
       if (!empty($data['given_name'])) {
         $nombre = $data['given_name'];
       }
       if (!empty($data['family_name'])) {
         $apellidos = $data['family_name'];
       }
-
-      if (!empty($data['email'])) {
-        $correo = $data['email'];
-      }
-
       if (!empty($data['gender'])) {
         $genero = $data['gender'];
       }
@@ -82,6 +86,13 @@
       header("Location: registro");
       exit();
     }
+  }else{
+    header("Location: registro");
+    exit();
+  }
+  }else{
+    header("Location: registro");
+    exit();
   }
 
   ?>
@@ -109,9 +120,10 @@
                     <p class="text-center small">Ingrese sus datos personales para crear una cuenta</p>
                   </div>
 
-                  <form action="database/registro.php" method="POST" class="row g-3 needs-validation" novalidate enctype="multipart/form-data">
+                  <form method="POST" id="formregistro" class="row g-3 needs-validation" enctype="multipart/form-data">
                     <div class="col-12" style="justify-content: centers;">
                       <img src="<?php echo $imagen ?>" class="img-responsive img-circle img-thumbnail" />
+                      <p class="text-center small">¡Esta imagen es temportal, debes asignar una imagen al inciar sesion!</p>
                     </div>
                     <div class="col-12">
                       <label for="Name" class="form-label">Nombre</label>
@@ -131,36 +143,39 @@
                     <div class="col-12">
                       <label for="Password" class="form-label">Contraseña</label>
                       <input type="password" name="pass" class="form-control" id="pass" required>
-                      <div class="invalid-feedback">¡Por favor, introduzca su contraseña!</div>
+                      <p class="text-danger d-none" id="mesaje_pass">¡Por favor, introduzca su contraseña!, Debe contener como mínimo una mayúscula, un numero y mas de 6 caracteres.<span><i class="bi bi-backspace"></i></span></p>
                     </div>
                     <div class="col-12">
-                      <label for="rol" class="form-label">Seleciona un perfil</label>
-                      <select class="form-select" aria-label="Default select example" name="rol">
+                      <label for="Password" class="form-label">Confirmar Contraseña</label>
+                      <input type="password" name="pass2" class="form-control" id="pass2" required>
+                      <p class="text-danger d-none" id="mesaje_pass2">¡Por favor, introduzca la confirmacion su contraseña!, Debe contener como mínimo una mayúscula, un numero y mas de 6 caracteres.<span><i class="bi bi-backspace"></i></span></p>
+                    </div>
+                    <div class="col-12">
+                      <label for="rol" class="form-label">Seleccione un perfil</label>
+                      <select class="form-select" aria-label="Default select example" id="rol" name="rol" required>
+                        <option value="0" disabled selected>Seleciona un perfil</option>
                         <option value="1">Almacenista</option>
                         <option value="2">Alumno</option>
                       </select>
                     </div>
                     <div class="col-12">
-                      <label for="img" class="form-label">Selecione una foto para su perfil</label>
-                      <input type="file" name="img" class="form-control" id="img" required>
+                      <label for="img" class="form-label">Seleccione una foto para su perfil</label>
+                      <input type="file" name="img" class="form-control" id="img" accept=".jpg, .jpeg, .png" required>
+                      <p class="text-danger d-none" id="mesaje_img">El campo teléfono debe contener 10 caracteres.<span><i class="bi bi-backspace"></i></span></p>
                     </div>
-
                     <div class="col-12">
                       <div class="form-check">
-                        <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" required>
-                        <label class="form-check-label" for="acceptTerms">Estoy de acuerdo y acepto los<a href="#">
-                            terminos y condiciones</a></label>
-                        <div class="invalid-feedback">Debes aceptar antes de enviar.</div>
+                        <input class="form-check-input" name="terms" type="checkbox" value="" id="terminos" required>
+                        <label class="form-check-label" for="terminos">Estoy de acuerdo y acepto los <a href="#">términos y condiciones</a>, es obligatorio.</label>
                       </div>
                     </div>
-                    <div class="col-12">
-                      <button class="btn btn-primary w-100" type="submit">Crear cuenta</button>
+                    <div class="col-12" id="">
+                      <button class="btn btn-primary w-100 disabled" id="btnregistro" onclick="registroDatos(event);">Crear cuenta</button>
                     </div>
                     <div class="col-12">
                       <p class="small mb-0">¿Ya tienes una cuenta? <a href="index.php">Iniciar Sesión</a></p>
                     </div>
                   </form>
-
                 </div>
               </div>
 
@@ -192,9 +207,10 @@
   <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
-
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="assets/js/expresionesregistro.js"></script>
 
 </body>
 

@@ -1,4 +1,19 @@
 <?php
+// Validar el método de solicitud
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    $ip = $_SERVER['REMOTE_ADDR']; // Obtener la dirección IP del usuario
+
+    // Mensaje de bloqueo
+    $response = array("success" => false, "message" => "Acceso denegado. Su IP ($ip) ha sido registrada.");
+
+    // Puedes agregar lógica adicional para registrar la IP y tomar medidas
+    // como bloquearla en una base de datos o realizar otras acciones necesarias.
+
+    echo json_encode($response);
+    exit();
+}
+// var_dump($_POST);
+exit;
 include 'conexion.php';
 
 $nombre = filter_var($conexion->real_escape_string($_POST['nombre']),FILTER_SANITIZE_STRING);
@@ -13,21 +28,7 @@ $queryname = "SELECT * FROM usuario  WHERE correo= '$correo'";
 $result = $conexion->query($queryname);
 
 if ($result->num_rows > 0) {
-    echo "
-        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-        <script language='JavaScript'>
-        document.addEventListener('DOMContentLoaded', function() {
-            Swal.fire({
-                title: 'Error',
-                text: 'El usuario ya esta en uso, por favor ingresa otro',
-                icon: 'error',
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'OK',
-              }).then(() => {
-                location.assign('../register.php');
-            });
-        });
-    </script>";
+  
     exit;
 }
 
