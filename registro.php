@@ -87,10 +87,12 @@
                         }
                         }
                         ?>
-                      <a href="<?php echo $google_client->createAuthUrl();?>" class="btn btn-primary w-100">Crear cuenta</a>
+                      <a href="<?php echo $google_client->createAuthUrl();?>" class="btn btn-outline-success w-100"> <img src="assets/img/icon-google.svg" alt="Descripción del SVG"> Crear cuenta con google</a>
                     </div>
                     <div class="col-12">
                       <p class="small mb-0">¿Ya tienes una cuenta? <a href="index.php">Iniciar Sesión</a></p>
+                      <p class="small mb-0 text-center"> Diseñado por <a href="#">Victoria Cruz</a></p>
+                     
                     </div>
                   </div>
 
@@ -102,7 +104,6 @@
                 <!-- You can delete the links only if you purchased the pro version. -->
                 <!-- Licensing information: https://bootstrapmade.com/license/ -->
                 <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-                Diseñado por <a href="#">Victoria Cruz</a>
               </div>
 
             </div>

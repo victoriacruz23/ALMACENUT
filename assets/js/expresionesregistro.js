@@ -64,11 +64,23 @@
         return false;
       }
 
-      fetch('database/registro.php',{
+      fetch('registro-database',{
         method:'POST',
         body: new FormData(formregistro)
-      }).then(response => response.text()).then(response=>{
+      }).then(response => response.json()).then(response=>{
         console.log(response);
+        if(response.respuesta == 'existe'){
+          alertair(response.icon,response.message,"registro");
+          return false;
+        }else if(response.respuesta == 'registrado'){
+          alertair(response.icon,response.message,"registro");
+          return false;
+        }else if(response.success == true){
+          alerta(response.icon,response.message);
+          return false;
+        }else{
+          alerta(response.icon,response.message);
+        }
       });
   }
 
@@ -81,3 +93,13 @@
       timer: 1500
     });
   }
+  function alertair(icono, titulo, ir) {
+    Swal.fire({
+        icon: icono,
+        title: titulo,
+        showConfirmButton: false,
+        timer: 1500
+    }).then(function () {
+        window.location = ir;
+    });
+}

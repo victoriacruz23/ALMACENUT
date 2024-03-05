@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -50,47 +49,47 @@
 <body>
   <?php
   if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-  require_once('database/conexion.php');
-  include('config.php');
-  if (isset($_GET["code"])) {
-    $token = $google_client->fetchAccessTokenWithAuthCode($_GET["code"]);
-    if (!isset($token['error'])) {
-      $google_client->setAccessToken($token['access_token']);
-      $_SESSION['access_token'] = $token['access_token'];
-      $google_service = new Google_Service_Oauth2($google_client);
-      $data = $google_service->userinfo->get();
+    require_once('database/conexion.php');
+    include('config.php');
+    if (isset($_GET["code"])) {
+      $token = $google_client->fetchAccessTokenWithAuthCode($_GET["code"]);
+      if (!isset($token['error'])) {
+        $google_client->setAccessToken($token['access_token']);
+        $_SESSION['access_token'] = $token['access_token'];
+        $google_service = new Google_Service_Oauth2($google_client);
+        $data = $google_service->userinfo->get();
 
-      if (!empty($data['email'])) {
-        $correo = $data['email'];
-        $consulta = $conexion->query("SELECT * FROM usuario WHERE correo = '$correo'");
-        if ($consulta->num_rows > 0) {
-          header("Location: registro?correo=" . urlencode($correo));
-          exit(); // Asegura que no se ejecuten más instrucciones después de la redirección
+        if (!empty($data['email'])) {
+          $correo = $data['email'];
+          $consulta = $conexion->query("SELECT * FROM usuario WHERE correo = '$correo'");
+          if ($consulta->num_rows > 0) {
+            header("Location: registro?correo=" . urlencode($correo));
+            exit(); // Asegura que no se ejecuten más instrucciones después de la redirección
+          }
         }
-      }
-      if (!empty($data['given_name'])) {
-        $nombre = $data['given_name'];
-      }
-      if (!empty($data['family_name'])) {
-        $apellidos = $data['family_name'];
-      }
-      if (!empty($data['gender'])) {
-        $genero = $data['gender'];
-      }
+        if (!empty($data['given_name'])) {
+          $nombre = $data['given_name'];
+        }
+        if (!empty($data['family_name'])) {
+          $apellidos = $data['family_name'];
+        }
+        if (!empty($data['gender'])) {
+          $genero = $data['gender'];
+        }
 
-      if (!empty($data['picture'])) {
-        $imagen = $data['picture'];
+        if (!empty($data['picture'])) {
+          $imagen = $data['picture'];
+        }
+      } else {
+        // Redireccionar a otro documento para evitar errores
+        header("Location: registro");
+        exit();
       }
     } else {
-      // Redireccionar a otro documento para evitar errores
       header("Location: registro");
       exit();
     }
-  }else{
-    header("Location: registro");
-    exit();
-  }
-  }else{
+  } else {
     header("Location: registro");
     exit();
   }

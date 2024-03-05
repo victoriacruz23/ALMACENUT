@@ -1,3 +1,4 @@
 /vendor
+/assets/img/fotosperfil/*
 composer.json
 composer.lock

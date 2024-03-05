@@ -43,7 +43,6 @@ CREATE TABLE usuario (
     id_usuario INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(100),
     apellido_p VARCHAR(150),
-    apellido_m VARCHAR(150),
     correo VARCHAR(100),
     contrasena VARCHAR(100),
     rol_id INT,
