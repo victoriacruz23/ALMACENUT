@@ -52,6 +52,7 @@
     require_once('database/conexion.php');
     include('config.php');
     if (isset($_GET["code"])) {
+      $google_client= $google_client1;
       $token = $google_client->fetchAccessTokenWithAuthCode($_GET["code"]);
       if (!isset($token['error'])) {
         $google_client->setAccessToken($token['access_token']);

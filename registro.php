@@ -36,13 +36,13 @@
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
   <style>
-  body{
-    background-image: url(imgpro/gastro.png);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-attachment: fixed;
-}
+    body {
+      background-image: url(imgpro/gastro.png);
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-attachment: fixed;
+    }
   </style>
 </head>
 
@@ -74,25 +74,24 @@
 
                   <div class="row g-3 needs-validation">
                     <div class="col-12">
-                    <?php
-                        include('config.php');
-                        if(isset($_GET["code"]))
-                        {
+                      <?php
+                      include('config.php');
+                      $google_client = $google_client1;
+                      if (isset($_GET["code"])) {
                         $token = $google_client->fetchAccessTokenWithAuthCode($_GET["code"]);
-                        if(!isset($token['error']))
-                        {
-                        $google_client->setAccessToken($token['access_token']);
-                        $google_service = new Google_Service_Oauth2($google_client);
-                        $data = $google_service->userinfo->get();
+                        if (!isset($token['error'])) {
+                          $google_client->setAccessToken($token['access_token']);
+                          $google_service = new Google_Service_Oauth2($google_client);
+                          $data = $google_service->userinfo->get();
                         }
-                        }
-                        ?>
-                      <a href="<?php echo $google_client->createAuthUrl();?>" class="btn btn-outline-success w-100"> <img src="assets/img/icon-google.svg" alt="Descripción del SVG"> Crear cuenta con google</a>
+                      }
+                      ?>
+                      <a href="<?php echo $google_client->createAuthUrl(); ?>" class="btn btn-outline-success w-100"> <img src="assets/img/icon-google.svg" alt="Descripción del SVG"> Crear cuenta con google</a>
                     </div>
                     <div class="col-12">
                       <p class="small mb-0">¿Ya tienes una cuenta? <a href="index.php">Iniciar Sesión</a></p>
                       <p class="small mb-0 text-center"> Diseñado por <a href="#">Victoria Cruz</a></p>
-                     
+
                     </div>
                   </div>
 
@@ -131,24 +130,25 @@
   <script src="assets/js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-  <script>  // Obtiene el correo de los parámetros de la URL
-        // Obtiene el correo de los parámetros de la URL
-  const urlParams = new URLSearchParams(window.location.search);
-  const correo = urlParams.get('correo');
+  <script>
+    // Obtiene el correo de los parámetros de la URL
+    // Obtiene el correo de los parámetros de la URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const correo = urlParams.get('correo');
 
-  // Verifica si la variable GET 'correo' existe
-  if (correo) {
-    // Muestra la alerta con el correo específico cuando la página se carga
-    document.addEventListener('DOMContentLoaded', function () {
-      Swal.fire({
-        icon: "success",
-        title: `El correo ${correo} ya existe`,
-        showConfirmButton: false,
-        timer: 1500
+    // Verifica si la variable GET 'correo' existe
+    if (correo) {
+      // Muestra la alerta con el correo específico cuando la página se carga
+      document.addEventListener('DOMContentLoaded', function() {
+        Swal.fire({
+          icon: "warning",
+          title: `El correo ${correo} ya existe`,
+          showConfirmButton: false,
+          timer: 1500
+        });
       });
-    });
-  }
-</script>
+    }
+  </script>
 </body>
 
 </html>
