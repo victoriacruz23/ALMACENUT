@@ -1,4 +1,10 @@
 <!-- ======= Header ======= -->
+<?php
+if (!isset($_SESSION['datosuser'])) {
+  header("Location: 403");
+  exit;
+}
+?>
 <header id="header" class="header fixed-top d-flex align-items-center">
 
   <div class="d-flex align-items-center justify-content-between">
@@ -8,15 +14,15 @@
     </a>
     <i class="bi bi-list toggle-sidebar-btn"></i>
   </div>
-<!-- End Logo -->
-<!-- End Search Bar -->
+  <!-- End Logo -->
+  <!-- End Search Bar -->
   <div class="search-bar">
-      <form class="search-form d-flex align-items-center" method="POST" action="#">
-        <!-- <input type="text" name="query" placeholder="Search" title="Enter search keyword"> -->
-        <input type="text" id="termino" name="query" placeholder="Search" title="Enter search keyword">
-        <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-      </form>
-    </div>
+    <form class="search-form d-flex align-items-center" method="POST" action="#">
+      <!-- <input type="text" name="query" placeholder="Search" title="Enter search keyword"> -->
+      <input type="text" id="termino" name="query" placeholder="Search" title="Enter search keyword">
+      <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+    </form>
+  </div>
   <!-- End Search Bar -->
 
   <nav class="header-nav ms-auto">
@@ -28,6 +34,9 @@
         </a>
       </li><!-- End Search Icon-->
 
+      <?php
+      /*
+     
       <li class="nav-item dropdown">
 
         <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
@@ -99,9 +108,12 @@
             <a href="#">Show all notifications</a>
           </li>
 
-        </ul><!-- End Notification Dropdown Items -->
+        </ul>
+        <!-- End Notification Dropdown Items -->
 
-      </li><!-- End Notification Nav -->
+      </li>
+
+       <!-- End Notification Nav -->
 
       <li class="nav-item dropdown">
 
@@ -167,7 +179,11 @@
 
         </ul><!-- End Messages Dropdown Items -->
 
-      </li><!-- End Messages Nav -->
+      </li>
+      <!-- End Messages Nav -->
+     */
+      ?>
+
 
       <li class="nav-item dropdown pe-3">
 
@@ -179,11 +195,11 @@
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
           <li class="dropdown-header">
             <h6><?php echo  $_SESSION['datosuser']['nombre'] . " " . $_SESSION['datosuser']['apellidos'] ?></h6>
-            <span><?php 
-            $perfil = $_SESSION['datosuser']['rol'];
-            $mensaje = ($perfil == 1)?"Almacenista":"Alumno";
-            echo  $mensaje;
-            ?></span>
+            <span><?php
+                  $perfil = $_SESSION['datosuser']['rol'];
+                  $mensaje = ($perfil == 1) ? "Almacenista" : "Alumno";
+                  echo  $mensaje;
+                  ?></span>
           </li>
           <li>
             <hr class="dropdown-divider">

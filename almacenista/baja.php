@@ -1,6 +1,6 @@
 <?php
-// require '../database/validarsesion.php';
-// require '../forms/menu.php';
+require_once("validacion.php");
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,25 +10,32 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
   <title>Almacen UT</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+  <?php require_once("../forms/linkscss.php"); ?>
 
-  <?php require_once("linkscss.php"); ?>
 </head>
 
 <body>
 
+  <?php
+  // require '../database/validarsesion.php';
+  require '../forms/menusuperior.php';
+  require '../forms/sidebar.php';
+  ?>
+
   <main id="main" class="main">
 
-    <div class="pagetitle">
-      <h1>Productos de baja</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="home.php">Inicio</a></li>
-          <li class="breadcrumb-item active">Productos de baja</li>
-        </ol>
-      </nav>
-    </div><!-- End Page Title -->
+  <!-- End Page Title -->
+  <?php
+    include("../forms/migas.php");
+
+    $breadcrumb = new Breadcrumb();
+    // Agrega las migas de pan
+    $breadcrumb->addCrumb('Alamacenista', '');
+    $breadcrumb->addCrumb('Bajas');
+
+    // Renderiza las migas de pan
+    $breadcrumb->render();
+    ?><!-- End Page Title -->
 
     <section class="section dashboard">
       <div class="row">
