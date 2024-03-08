@@ -1,6 +1,8 @@
 <?php
-// require '../database/validarsesion.php';
-require '../forms/menualum.php';
+// session_start();
+require_once("validacion.php");
+// var_dump($_SESSION['datosuser']);
+// exit;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,16 +14,10 @@ require '../forms/menualum.php';
   <title>Almacen UT</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
-
-  <!-- Favicons -->
   <link href="assets/img/img/logo.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
@@ -29,34 +25,32 @@ require '../forms/menualum.php';
   <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
-
-  <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
-  <!-- =======================================================
-  * Template Name: NiceAdmin
-  * Updated: Mar 09 2023 with Bootstrap v5.2.3
-  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+
 </head>
 
 <body>
 
-
+  <?php
+  // require '../database/validarsesion.php';
+  require '../forms/menusuperior.php';
+  require '../forms/sidebar.php';
+  ?>
 
   <main id="main" class="main">
 
-    <div class="pagetitle">
-      <h1>Panel</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="home.php">Inicio</a></li>
-          <li class="breadcrumb-item active">Panel</li>
-        </ol>
-      </nav>
-    </div><!-- End Page Title -->
+    <?php
+    include("../forms/migas.php");
+
+    $breadcrumb = new Breadcrumb();
+    // Agrega las migas de pan
+    $breadcrumb->addCrumb('Alumno', '');
+    $breadcrumb->addCrumb('Inicio');
+
+    // Renderiza las migas de pan
+    $breadcrumb->render();
+    ?>
 
     <section class="section dashboard">
       <div class="row">
