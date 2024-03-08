@@ -4,9 +4,12 @@ RewriteCond %{SCRIPT_FILENAME} !-d
 RewriteCond %{SCRIPT_FILENAME} !-f
 
 RewriteRule ^registro$ registro.php [L]
+RewriteRule ^inicio$ index.php [L]
 RewriteRule ^registro-google$ register.php [L]
 RewriteRule ^registro-database$ database/registro.php [L]
 RewriteRule ^inicio-sesion-google$ database/logingoogle.php [L]
+RewriteRule ^cerrar-session$ database/cerrar.php [L]
+
 RewriteRule ^inicio-almacenista$ almacenista/home.php [L]
 RewriteRule ^inicio-alumnos$ alumnos/home.php [L]
 RewriteRule ^404/?$ 404.php

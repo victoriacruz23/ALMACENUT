@@ -74,16 +74,18 @@
                   </div>
 
                   <form action="database/login.php" method="POST" class="row g-3 needs-validation" novalidate>
-
                     <div class="col-12">
-                      <label for="Correo" class="form-label">Correo</label>
+                      <label for="correo" class="form-label">Correo</label>
                       <div class="input-group has-validation">
-                        <span class="input-group-text" id="inputGroupPrepend">@</span>
-                        <input type="text" name="correo" class="form-control" id="correo" required>
+                        <div class="input-group mb-3">
+                          <input type="text" class="form-control" id="correo" name="correo" placeholder="correo" aria-label="correo">
+                          <span class="input-group-text">@utacapulco.edu.mx</span>
+                          <input type="hidden" class="input-group-text" id="correodom" name="correodom" value="@utacapulco.edu.mx">
+                        </div>
+
                         <div class="invalid-feedback">Por favor, ingrese su Correo.</div>
                       </div>
                     </div>
-
                     <div class="col-12">
                       <label for="Contraseña" class="form-label">Contraseña</label>
                       <input type="password" name="contra" class="form-control" id="contra" required>
@@ -100,7 +102,7 @@
                       <button class="btn btn-primary w-100" type="submit">Ingresar</button>
                     </div>
                   </form>
-                  <div class="col-12"  style="margin-top: 10px;">
+                  <div class="col-12" style="margin-top: 10px;">
                     <?php
                     include('config.php');
                     $google_client = $google_client2;
@@ -116,8 +118,8 @@
                     <a href="<?php echo $google_client->createAuthUrl(); ?>" class="btn btn-outline-success w-100"> <img src="assets/img/icon-google.svg" alt="Descripción del SVG"> Inicia sesion con google</a>
                   </div>
                   <div class="col-12">
-                      <p class="small mb-0">¿No tienes cuenta?<a href="registro">Crea una cuenta</a></p>
-                    </div>
+                    <p class="small mb-0">¿No tienes cuenta?<a href="registro">Crea una cuenta</a></p>
+                  </div>
                 </div>
               </div>
 

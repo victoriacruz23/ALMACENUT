@@ -1,43 +1,26 @@
 <?php
-session_start();
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+session_start(); // Iniciar la sesión
 
-// Incluir el archivo de configuración para obtener la conexión PDO
-require 'conexion.php';
+// Verificar si el usuario está autenticado
+if (isset($_SESSION['datosuser'])) {
+    // Eliminar todas las variables de sesión
+    $_SESSION = array();
 
-// Verificar si existe una sesión de usuario
-if(isset($_SESSION['correo'])) {
     // Destruir la sesión
     session_destroy();
-    echo "
-        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-        <script language='JavaScript'>
-        document.addEventListener('DOMContentLoaded', function() {
-            Swal.fire({
-                title: 'Cierre Existoso',
-                text: 'La sesión fue cerrada',
-                icon: 'success',
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'OK',
-              }).then(() => {
-                location.assign('../index.php');
-            });
-        });
-    </script>";
+
+    // Responder con un mensaje de éxito
+    $response = array('success' => true, 'message' => 'Cierre de sesión exitoso');
+    echo json_encode($response);
 } else {
-   echo "
-        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-        <script language='JavaScript'>
-        document.addEventListener('DOMContentLoaded', function() {
-            Swal.fire({
-                title: 'Error',
-                text: 'No hay ninguna sesión activa',
-                icon: 'error',
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'OK',
-              }).then(() => {
-                location.assign('../index.php');
-            });
-        });
-    </script>";
+    // Responder con un mensaje de error
+    $response = array('success' => false, 'message' => 'No se pudo cerrar la sesión');
+    echo json_encode($response);
 }
-?>
+}else{
+        // Acceso denegado si no se utiliza el método POST
+        $response = array("success" => false, "message" => "Acceso denegado");
+        echo json_encode($response);
+        exit();
+}
