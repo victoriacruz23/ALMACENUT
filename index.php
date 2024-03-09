@@ -44,33 +44,24 @@
                     <p class="text-center small">Ingrese su nombre de usuario y contraseña para iniciar sesión</p>
                   </div>
 
-                  <form action="database/login.php" method="POST" class="row g-3 needs-validation" novalidate>
+                  <form id="formsesion" method="POST" class="row g-3 needs-validation" novalidate>
                     <div class="col-12">
                       <label for="correo" class="form-label">Correo</label>
                       <div class="input-group has-validation">
                         <div class="input-group mb-3">
                           <input type="text" class="form-control" id="correo" name="correo" placeholder="correo" aria-label="correo">
                           <span class="input-group-text">@utacapulco.edu.mx</span>
-                          <input type="hidden" class="input-group-text" id="correodom" name="correodom" value="@utacapulco.edu.mx">
                         </div>
-
-                        <div class="invalid-feedback">Por favor, ingrese su Correo.</div>
+                        <p class="text-danger d-none" id="mesaje_correo">!Valide su correo!</p>
                       </div>
                     </div>
                     <div class="col-12">
                       <label for="Contraseña" class="form-label">Contraseña</label>
                       <input type="password" name="contra" class="form-control" id="contra" required>
-                      <div class="invalid-feedback">!Porfa ingrese su contraseña!</div>
+                      <p class="text-danger d-none" id="mesaje_contra">!Valide su contraseña!</p>
                     </div>
-
-                    <div class="col-12">
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe">
-                        <label class="form-check-label" for="rememberMe">Recordar Contraseña</label>
-                      </div>
-                    </div>
-                    <div class="col-12">
-                      <button class="btn btn-primary w-100" type="submit">Ingresar</button>
+                    <div class="col-12" id="">
+                      <button class="btn btn-primary w-100 disabled" id="btnsesion" onclick="inicioSesion(event);">Iniciar</button>
                     </div>
                   </form>
                   <div class="col-12" style="margin-top: 10px;">
@@ -122,10 +113,9 @@
   <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
-
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="assets/js/expresesion.js"></script>
 
 </body>
 

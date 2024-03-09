@@ -8,6 +8,7 @@ RewriteRule ^inicio$ index.php [L]
 RewriteRule ^registro-google$ register.php [L]
 RewriteRule ^registro-database$ database/registro.php [L]
 RewriteRule ^inicio-sesion-google$ database/logingoogle.php [L]
+RewriteRule ^inicio-sesion$ database/login.php [L]
 RewriteRule ^cerrar-session$ database/cerrar.php [L]
 
 RewriteRule ^inicio-almacenista$ almacenista/home.php [L]
