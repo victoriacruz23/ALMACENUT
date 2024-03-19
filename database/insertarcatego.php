@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 confirmButtonColor: '#3085d6',
                 confirmButtonText: 'OK',
               }).then(() => {
-                location.assign('../almacenista/categorias.php');
+                location.assign('/ALMACENUT/categoria-almacenista');
             });
         });
         </script>";
@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 confirmButtonColor: '#3085d6',
                 confirmButtonText: 'OK',
               }).then(() => {
-                location.assign('../almacenista/categorias.php');
+                location.assign('/ALMACENUT/categoria-almacenista');
             });
         });
         </script>";

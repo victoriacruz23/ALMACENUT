@@ -8,7 +8,7 @@ if (!isset($_SESSION['datosuser'])) {
 <header id="header" class="header fixed-top d-flex align-items-center">
 
   <div class="d-flex align-items-center justify-content-between">
-    <a href="almacenista/home.php" class="logo d-flex align-items-center">
+    <a href="inicio-almacenista" class="logo d-flex align-items-center">
       <img src="assets/img/img/logo.png" alt="">
       <span class="d-none d-lg-block">Almacen UT</span>
     </a>
@@ -188,7 +188,14 @@ if (!isset($_SESSION['datosuser'])) {
       <li class="nav-item dropdown pe-3">
 
         <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-          <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+          <!-- <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle"> -->
+          <?php
+            // Verificar si la sesión tiene una imagen
+            $imagen = isset($_SESSION['datosuser']['img']) ? $_SESSION['datosuser']['img'] : 'default.jpg';
+
+            // Imprimir la etiqueta de la imagen usando el operador ternario
+            echo '<img src="assets/img/fotosperfil' . $imagen . '" alt="Profile" class="rounded-circle">';
+          ?>
           <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo  $_SESSION['datosuser']['nombre']; ?></span>
         </a><!-- End Profile Iamge Icon -->
 
@@ -204,47 +211,121 @@ if (!isset($_SESSION['datosuser'])) {
           <li>
             <hr class="dropdown-divider">
           </li>
+          <?php
+          if (isset($_SESSION['datosuser'])) {
+            switch ($_SESSION['datosuser']['rol']) {
+              case 1:
+          ?>
 
-          <li>
-            <a class="dropdown-item d-flex align-items-center" href="pages/users-profile.php">
-              <i class="bi bi-person"></i>
-              <span>Mi Perfil</span>
-            </a>
-          </li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
+                <li>
+                  <a class="dropdown-item d-flex align-items-center" href="perfil-almacenista">
+                    <i class="bi bi-person"></i>
+                    <span>Mi Perfil</span>
+                  </a>
+                </li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
 
-          <li>
-            <a class="dropdown-item d-flex align-items-center" href="pages/users-profile.php">
-              <i class="bi bi-gear"></i>
-              <span>Configuracion</span>
-            </a>
-          </li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
+                <li>
+                  <a class="dropdown-item d-flex align-items-center" href="perfil-almacenista">
+                    <i class="bi bi-gear"></i>
+                    <span>Configuracion</span>
+                  </a>
+                </li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
 
-          <li>
+                <!-- <li>
             <a class="dropdown-item d-flex align-items-center" href="pages/pages-faq.php">
               <i class="bi bi-question-circle"></i>
               <span>¿Necesitas Ayuda?</span>
             </a>
-          </li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
-
-          <li>
-            <a class="dropdown-item d-flex align-items-center" onclick="cerrarsesion(event);">
-              <i class="bi bi-box-arrow-right"></i>
-              <span>Cerrar sesion</span>
-            </a>
-          </li>
+          </li> -->
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li>
+                  <a class="dropdown-item d-flex align-items-center" onclick="cerrarsesion(event);">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Cerrar sesion</span>
+                  </a>
+                </li>
         </ul><!-- End Profile Dropdown Items -->
       </li><!-- End Profile Nav -->
+    <?php
+                break;
+                //Alumno
+              case 2:
+    ?>
+      <li>
+        <a class="dropdown-item d-flex align-items-center" href="pages/users-profile.php">
+          <i class="bi bi-person"></i>
+          <span>Mi Perfil</span>
+        </a>
+      </li>
+      <li>
+        <hr class="dropdown-divider">
+      </li>
 
-    </ul>
+      <li>
+        <a class="dropdown-item d-flex align-items-center" href="pages/users-profile.php">
+          <i class="bi bi-gear"></i>
+          <span>Configuracion</span>
+        </a>
+      </li>
+      <li>
+        <hr class="dropdown-divider">
+      </li>
+
+      <li>
+        <a class="dropdown-item d-flex align-items-center" href="pages/pages-faq.php">
+          <i class="bi bi-question-circle"></i>
+          <span>¿Necesitas Ayuda?</span>
+        </a>
+      </li>
+      <li>
+        <hr class="dropdown-divider">
+      </li>
+      <li>
+        <a class="dropdown-item d-flex align-items-center" onclick="cerrarsesion(event);">
+          <i class="bi bi-box-arrow-right"></i>
+          <span>Cerrar sesion</span>
+        </a>
+      </li>
+    </ul><!-- End Profile Dropdown Items -->
+    </li><!-- End Profile Nav -->
+<?php
+                break;
+              default:
+                $response = array("success" => false, "message" => "Existio un error");
+                echo json_encode($response);
+                exit;
+                break;
+            }
+?>
+
+<?php
+          } else {
+?>
+  <li class="nav-item">
+    <a class="nav-link collapsed " href="registro-database">
+      <i class="bi bi-card-list "></i>
+      <span>Registro</span>
+    </a>
+  </li><!-- End Register Page Nav -->
+
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="inicio">
+      <i class="bi bi-box-arrow-in-right"></i>
+      <span>Inicio sesion</span>
+    </a>
+  </li><!-- End Login Page Nav -->
+<?php
+          }
+?>
+</ul>
   </nav><!-- End Icons Navigation -->
   <script src="assets/js/cerrarsesion.js"></script>
   <script src="assets/js/busqueda.js"></script>

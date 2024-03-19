@@ -14,15 +14,39 @@
             </a>
           </li><!-- End Dashboard Nav -->
           <li class="nav-item">
-            <a class="nav-link collapsed " href="cetegoria-almacenista">
+            <a class="nav-link collapsed " href="categoria-almacenista">
               <i class="bi bi-tags-fill"></i>
               <span>Categoria</span>
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link collapsed " href="productos-almacenista">
+              <i class="bi bi-box-fill"></i>
+              <span>Productos</span>
+            </a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link collapsed " href="bajas-almacenista">
-              <i class="bi bi-trash3-fill"></i>
+                <i class="bi bi-trash3-fill"></i>
               <span>Bajas</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link collapsed " href="compras-almacenista">
+              <i class="bi bi-cart-check-fill"></i>
+              <span>Compras</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link collapsed " href="pagos-almacenista">
+              <i class="bi bi-credit-card-fill"></i>
+              <span>Pagos</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link collapsed " href="requicision-almacenista">
+              <i class="bi bi-clipboard-check-fill"></i>
+              <span>Requicisiones</span>
             </a>
           </li>
 

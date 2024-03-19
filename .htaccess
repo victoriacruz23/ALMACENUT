@@ -10,10 +10,16 @@ RewriteRule ^registro-database$ database/registro.php [L]
 RewriteRule ^inicio-sesion-google$ database/logingoogle.php [L]
 RewriteRule ^inicio-sesion$ database/login.php [L]
 RewriteRule ^cerrar-session$ database/cerrar.php [L]
+RewriteRule ^editar-perfil$ database/editarperfil.php [L]
 
 RewriteRule ^inicio-almacenista$ almacenista/home.php [L]
-RewriteRule ^cetegoria-almacenista$ almacenista/categorias.php [L]
+RewriteRule ^categoria-almacenista$ almacenista/categorias.php [L]
 RewriteRule ^bajas-almacenista$ almacenista/baja.php [L]
+RewriteRule ^compras-almacenista$ almacenista/compras.php [L]
+RewriteRule ^pagos-almacenista$ almacenista/pagos.php [L]
+RewriteRule ^productos-almacenista$ almacenista/productos.php [L]
+RewriteRule ^requicision-almacenista$ almacenista/requi.php [L]
+RewriteRule ^perfil-almacenista$ almacenista/perfil.php [L]
 
 
 RewriteRule ^inicio-alumnos$ alumnos/home.php [L]
