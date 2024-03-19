@@ -1,5 +1,5 @@
 <?php
-	$server = "localhost:3307";
+	$server = "localhost";
 	$user = "root";
 	$password = "";//poner tu propia contraseña, si tienes una.
 	// $password = "admin1";//poner tu propia contraseña, si tienes una.

@@ -11,6 +11,8 @@ require_once("validacion.php");
   <title>Almacen UT Categorias</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+
   <!-- Favicons -->
   <?php require_once("../forms/linkscss.php"); ?>
 </head>
@@ -52,12 +54,33 @@ require_once("validacion.php");
                   <button type="button" class="btn btn-primary float-end" style="margin-top: -50px;" data-bs-toggle="modal" data-bs-target="#NuevaCategoria">
                     Agregar Categoría
                   </button>
-                  <?php
-                  require '../database/conexion.php';
+                  <!-- Table with stripped rows -->
+                  <div class="table-responsive">
+                    <table id="tablaSolicitud" class="table table-striped table-bordered" style="width:100%">
+                      <thead>
+                        <tr>
+                          <th>Id Categoria</th>
+                          <th>Nombre</th>
+                        </tr>
+                      </thead>
+                      <tbody id="cuerpotabla">
+                       
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <th>Id Categoria</th>
+                          <th>Nombre</th>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
 
+                  <!-- End Table with stripped rows -->
+                  <?php
+                  /*
+                  require '../database/conexion.php';
                   $query = "SELECT * FROM areas";
                   $resultado = mysqli_query($conexion, $query);
-
                   // Verificar si hay resultados
                   if (mysqli_num_rows($resultado) > 0) {
                     // Mostrar la tabla HTML
@@ -85,7 +108,7 @@ require_once("validacion.php");
                   }
 
                   // Liberar el resultado y cerrar la conexión
-                  mysqli_free_result($resultado);
+                  mysqli_free_result($resultado);*/
                   ?>
 
                 </div>
@@ -109,19 +132,18 @@ require_once("validacion.php");
               </div>
               <div class="modal-body">
                 <!-- Formulario para agregar nueva categoría -->
-                <form action="database/insertarcatego.php" method="POST">
+                <form action="database/insertarcatego.php" id="formnevcat" method="POST">
                   <div class="mb-3">
-                    <label for="nombreCategoria" class="form-label">Nombre del Área:</label>
+                    <label for="catego" class="form-label">Nombre del Área:</label>
                     <input type="text" class="form-control" id="catego" name="catego" required>
+                    <p class="text-danger d-none" id="mesaje_catego">!Valide el nombre de categoria, minimo 4 caracteres maximo!</p>
                   </div>
-                  <button type="submit" class="btn btn-primary">Agregar</button>
+                  <button id="btnCat" type="submit" class="btn btn-primary disabled">Agregar</button>
                 </form>
               </div>
             </div>
           </div>
         </div>
-
-
       </div>
     </section>
 
@@ -130,7 +152,10 @@ require_once("validacion.php");
   <?php
   require '../forms/footer.php';
   ?>
-
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+  <script src="assets/js/nuevacategoria.js"></script>
 </body>
 
 </html>

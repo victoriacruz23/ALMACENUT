@@ -62,4 +62,3 @@ if($stmt->affected_rows == 1) {
 $stmt->close();
 $conexion->close();
 echo json_encode($response);
-?>
