@@ -111,12 +111,31 @@ btnCat.addEventListener("click", (e) => {
     }
   });
 });
+var miModal = document.getElementById('NuevaCategoria');
 
+miModal.addEventListener('hidden.bs.modal', function () {
+  limpiarform();
+});
 function alerta(icono, titulo) {
   Swal.fire({
     icon: icono,
     title: titulo,
     showConfirmButton: false,
     timer: 1500
+  });
+}
+function limpiarform(){
+  formEv.reset();
+  // Eliminar clases is-valid y is-invalid
+  inputs.forEach(input => {
+      input.classList.remove('is-valid', 'is-invalid');
+  });
+  // Ocultar mensajes de error
+  document.querySelectorAll('.mensaje-error').forEach(mensaje => {
+      mensaje.classList.add('d-none');
+  });
+  // Restablecer estado de los campos
+  Object.keys(campos).forEach(campo => {
+      campos[campo] = false;
   });
 }

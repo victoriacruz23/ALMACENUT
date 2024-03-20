@@ -57,7 +57,12 @@
                     </div>
                     <div class="col-12">
                       <label for="Contraseña" class="form-label">Contraseña</label>
-                      <input type="password" name="contra" class="form-control" id="contra" required>
+                      <div class="input-group">
+                        <input type="password" name="contra" class="form-control" id="contra" required>
+                        <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('contra')">
+                          <i class="bi bi-eye"></i>
+                        </button>
+                      </div>
                       <p class="text-danger d-none" id="mesaje_contra">!Valide su contraseña!</p>
                     </div>
                     <div class="col-12" id="">

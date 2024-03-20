@@ -190,11 +190,11 @@ if (!isset($_SESSION['datosuser'])) {
         <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
           <!-- <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle"> -->
           <?php
-            // Verificar si la sesión tiene una imagen
-            $imagen = isset($_SESSION['datosuser']['img']) ? $_SESSION['datosuser']['img'] : 'default.jpg';
+          // Verificar si la sesión tiene una imagen
+          $imagen = isset($_SESSION['datosuser']['img']) ? $_SESSION['datosuser']['img'] : 'default.jpg';
 
-            // Imprimir la etiqueta de la imagen usando el operador ternario
-            echo '<img src="assets/img/fotosperfil' . $imagen . '" alt="Profile" class="rounded-circle">';
+          // Imprimir la etiqueta de la imagen usando el operador ternario
+          echo '<img src="assets/img/fotosperfil' . $imagen . '" alt="Profile" class="rounded-circle">';
           ?>
           <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo  $_SESSION['datosuser']['nombre']; ?></span>
         </a><!-- End Profile Iamge Icon -->

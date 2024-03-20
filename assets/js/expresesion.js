@@ -74,6 +74,20 @@ function inicioSesion(event) {
   });
 }
 
+function togglePasswordVisibility(passwordId) {
+  const passwordInput = document.getElementById(passwordId);
+  const buttonIcon = passwordInput.nextElementSibling.querySelector('i');
+
+  if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      buttonIcon.classList.remove('bi-eye');
+      buttonIcon.classList.add('bi-eye-slash');
+  } else {
+      passwordInput.type = 'password';
+      buttonIcon.classList.remove('bi-eye-slash');
+      buttonIcon.classList.add('bi-eye');
+  }
+}
 
 function alerta(icono, titulo) {
   Swal.fire({

@@ -109,11 +109,7 @@ require_once("validacion.php");
                     <div class="col-lg-3 col-md-4 label">Puesto</div>
                     <div class="col-lg-9 col-md-8">
                       <span>
-                        <?php
-                        $perfil = $_SESSION['datosuser']['rol'];
-                        $mensaje = ($perfil == 1) ? "Almacenista" : "Alumno";
-                        echo  $mensaje;
-                        ?>
+                        <?php echo ($_SESSION['datosuser']['rol'] == 1) ? "Almacenista" : "Alumno"; ?>
                       </span>
                     </div>
                   </div>
@@ -130,17 +126,18 @@ require_once("validacion.php");
                         <?php
                         // Verificar si la sesión tiene una imagen
                         $imagen = isset($_SESSION['datosuser']['img']) ? $_SESSION['datosuser']['img'] : 'default.jpg';
-
                         // Imprimir la etiqueta de la imagen usando el operador ternario
                         echo '<img src="assets/img/fotosperfil' . $imagen . '" alt="Profile" width="120px" height="120px">';
                         ?>
                       </div>
                     </div>
-
                     <div class="row mb-3">
+                      <input type="hidden" name="id" value="<?php echo $_SESSION['datosuser']['id']; ?>">
+
                       <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nombre</label>
                       <div class="col-md-8 col-lg-9">
                         <input name="fullName" type="text" class="form-control" id="fullName" value="<?php echo  $_SESSION['datosuser']['nombre'] ?>">
+                        <p class="text-danger d-none" id="mesaje_fullName">El campo teléfono debe contener 10 caracteres.<span><i class="bi bi-backspace"></i></span></p>
                       </div>
                     </div>
 
@@ -148,36 +145,29 @@ require_once("validacion.php");
                       <label for="lastName" class="col-md-4 col-lg-3 col-form-label">Apellidos</label>
                       <div class="col-md-8 col-lg-9">
                         <input name="lastName" type="text" class="form-control" id="lastName" value="<?php echo $_SESSION['datosuser']['apellidos'] ?>">
+                        <p class="text-danger d-none" id="mesaje_lastName">El campo teléfono debe contener 10 caracteres.<span><i class="bi bi-backspace"></i></span></p>
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="fullEmail" class="col-md-4 col-lg-3 col-form-label">Email</label>
                       <div class="col-md-8 col-lg-9">
-                        <input type="text" name="fullEmail" class="form-control" id="fullEmail" value="<?php echo  $_SESSION['datosuser']['correo']; ?>" aria-label="readonly input example" readonly>
-                        </input>
+                        <p class="form-control"><?php echo $_SESSION['datosuser']['correo'] ?></p>
                       </div>
                     </div>
-
                     <div class="row mb-3">
                       <label for="Job" class="col-md-4 col-lg-3 col-form-label">Puesto</label>
                       <div class="col-md-8 col-lg-9">
-                        <input type="text" name="puesto" class="form-control" id="puesto"  value="<?php
-                                                            $perfil = $_SESSION['datosuser']['rol'];
-                                                            $mensaje = ($perfil == 1) ? "Almacenista" : "Alumno";
-                                                            echo $mensaje;
-                                                            ?>" aria-label="readonly input example" readonly></input>
+                        <input type="text" name="puesto" class="form-control" id="puesto" value="<?php echo $mensaje = ($_SESSION['datosuser']['rol'] == 1) ? "Almacenista" : "Alumno"; ?>" aria-label="readonly input example" readonly></input>
                       </div>
                     </div>
                     <div class="row mb-3">
                       <label for="foto" class="col-md-4 col-lg-3 col-form-label">Cambiar foto </label>
-                      <div class="col-md-8 col-log-9">
-                        <input class="form-control" id="foto" type="file" name="foto">
+                      <div class="col-md-8 col-lg-9">
+                        <input class="form-control" id="foto" type="file" accept=".jpg, .jpeg, .png" name="foto">
                       </div>
                     </div>
                     <input type="hidden" name="accion" value="editar">
-                    <input type="hidden" name="id" value="<?php echo $_SESSION['datosuser']['id_usuario']; ?>">
-
                     <div class="text-center">
                       <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                     </div>
@@ -187,31 +177,49 @@ require_once("validacion.php");
 
                 <div class="tab-pane fade pt-3" id="profile-change-password">
                   <!-- Change Password Form -->
-                  <form>
-
+                  <form id="editarcontra" method="POST">
                     <div class="row mb-3">
                       <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Contraseña Actual</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="password" type="password" class="form-control" id="currentPassword">
+                        <div class="input-group">
+                          <input name="currentPassword" type="password" class="form-control" id="currentPassword">
+                          <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('currentPassword')">
+                            <i class="bi bi-eye"></i>
+                          </button>
+                        </div>
+
+                        <p class="text-danger d-none" id="mesaje_currentPassword">¡Por favor, introduzca su contraseña!, Debe contener como mínimo una mayúscula, un numero y mas de 6 caracteres.<span><i class="bi bi-backspace"></i></span></p>
                       </div>
                     </div>
 
                     <div class="row mb-3">
-                      <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Contraseña Nueva</label>
+                      <label for="newpassword" class="col-md-4 col-lg-3 col-form-label">Contraseña Nueva</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="newpassword" type="password" class="form-control" id="newPassword">
+                        <div class="input-group">
+                          <input name="newpassword" type="password" class="form-control" id="newpassword">
+                          <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('newpassword')">
+                            <i class="bi bi-eye"></i>
+                          </button>
+                        </div>
+                        <p class="text-danger d-none" id="mesaje_newpassword">¡Por favor, introduzca su contraseña!, Debe contener como mínimo una mayúscula, un numero y mas de 6 caracteres.<span><i class="bi bi-backspace"></i></span></p>
                       </div>
                     </div>
 
                     <div class="row mb-3">
-                      <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Confirmar contraseña nueva</label>
+                      <label for="renewpassword" class="col-md-4 col-lg-3 col-form-label">Confirmar contraseña nueva</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="renewpassword" type="password" class="form-control" id="renewPassword">
+                        <div class="input-group">
+                          <input name="renewpassword" type="password" class="form-control" id="renewpassword">
+                          <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('renewpassword')">
+                            <i class="bi bi-eye"></i>
+                          </button>
+                        </div>
+                        <p class="text-danger d-none" id="mesaje_renewpassword">¡Por favor, introduzca la confirmacion su contraseña!, Debe contener como mínimo una mayúscula, un numero y mas de 6 caracteres.<span><i class="bi bi-backspace"></i></span></p>
                       </div>
                     </div>
 
                     <div class="text-center">
-                      <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                      <button id="btnupdatecontra" onclick="updatePassword(event);" type="submit" class="btn btn-primary disabled">Guardar Cambios</button>
                     </div>
                   </form><!-- End Change Password Form -->
 
@@ -231,6 +239,8 @@ require_once("validacion.php");
   <?php
   require '../forms/footer.php';
   ?>
+  <script src="assets/js/editarperfil.js"></script>
+
 </body>
 
 </html>
