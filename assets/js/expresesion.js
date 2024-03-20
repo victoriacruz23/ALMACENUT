@@ -1,6 +1,7 @@
 //validacion formulario 
 const formEv = document.getElementById('formsesion');
 const inputs = document.querySelectorAll('#formsesion input');
+
 const expresiones = {
   contra: /^(?=.*[A-Z])(?=.*\d).{6,}$/, // Letras, numeros, guion y guion_bajo
   correo: /^[a-z]+\.[a-z]+$/, // Letras, numeros, guion y guion_bajo

@@ -1,5 +1,7 @@
 <?php
 require_once("validacion.php");
+require "../database/csrf_toke.php";
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -178,6 +180,7 @@ require_once("validacion.php");
                 <div class="tab-pane fade pt-3" id="profile-change-password">
                   <!-- Change Password Form -->
                   <form id="editarcontra" method="POST">
+                  <input type="hidden" name="csrf_token" id="csrf_token" value="<?php echo $csrf_token = set_csrf_token(); ?>">
                     <div class="row mb-3">
                       <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Contraseña Actual</label>
                       <div class="col-md-8 col-lg-9">
