@@ -1,81 +1,71 @@
 <?php
-if (isset($_POST['accion'])) {
-    switch ($_POST['accion']) {
-        case 'editar':
-            editar();
-            break;
-    }
+require '../almacenista/validacion.php';
+
+// Verificar el método de solicitud
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    $ip = $_SERVER['REMOTE_ADDR']; // Obtener la dirección IP del usuario
+
+    // Mensaje de bloqueo
+    $response = array("success" => false, "message" => "Acceso denegado. Su IP ($ip) ha sido registrada.");
+
+    // Puedes agregar lógica adicional para registrar la IP y tomar medidas
+    // como bloquearla en una base de datos o realizar otras acciones necesarias.
+
+    echo json_encode($response);
+    exit();
 }
 
-function editar()
-{
-    include('conexion.php');
-    // Obtener datos del formulario
-    $id = $_POST['id']; // ID del medicamento que se está editando
-    $nombre = $_POST['fullName'];
-    $apellidos = $_POST['lastName'];
-    
-    // Verificar si se cargó una nueva imagen
-    if(isset($_FILES['foto']) && $_FILES['foto']['size'] > 0) {
-        $foto = $_FILES['foto'];
-        $img_type = $foto['type'];
+include 'conexion.php';
 
-        // Si se trata de una imagen   
-        if (((strpos($img_type, "jpeg") ||
-            strpos($img_type, "jpg")) || strpos($img_type, "png"))) {
+$id_usuario = filter_var($conexion->real_escape_string($_POST['id']), FILTER_SANITIZE_STRING);
+$nombre = filter_var($conexion->real_escape_string($_POST['fullName']), FILTER_SANITIZE_STRING);
+$apellidos = filter_var($conexion->real_escape_string($_POST['lastName']), FILTER_SANITIZE_STRING);
+$imagen = $_FILES['foto'];
 
-                // Obtener el nombre y la extensión del archivo
-                $nombreArchivo = $foto['name'];
-                // Mover el archivo cargado al directorio de imágenes
-                $rutaDestino = "../images/$nombreArchivo";
-                move_uploaded_file($foto['tmp_name'], $rutaDestino);
-                // Actualizar la ruta de la imagen en la base de datos
-                $sql_update = "UPDATE usuario SET nombre='$nombre', apellidos='$apellidos', foto='$rutaDestino' WHERE id_usuario='$id'";
-        } else {
-            // Si se cargó un archivo pero no es una imagen válida, mostrar mensaje de error
-            echo "
-            <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-            <script language='JavaScript'>
-            document.addEventListener('DOMContentLoaded', function() {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'No se acepta este tipo de archivos',
-                    confirmButtonColor: '#3085d6',
-                    confirmButtonText: 'OK',
-                  }).then(() => {
-                    location.assign('../config.php');
-                });
-            });
-            </script>";
-            exit;
-        }
-    } else {
-        // Si no se cargó una nueva imagen, actualizar los campos sin modificar la imagen en la base de datos
-        $sql_update = "UPDATE usuario SET nombre='$nombre', apellidos='$apellidos' WHERE id_usuario='$id'";
+// Actualizar nombre y apellidos
+$stmt = $conexion->prepare("UPDATE usuario SET nombre=?, apellido_p=? WHERE id_usuario=?");
+$stmt->bind_param("ssi", $nombre, $apellidos, $id_usuario);
+$stmt->execute();
+
+// Manejar la imagen de perfil si se proporciona
+if ($imagen['size'] > 0) {
+    // Verificar el tipo de archivo
+    $permitidos = array('jpg', 'jpeg', 'png');
+    $nombreArchivo = $imagen['name'];
+    $extension = strtolower(pathinfo($nombreArchivo, PATHINFO_EXTENSION));
+    if (!in_array($extension, $permitidos)) {
+        $response = array("success" => false, "message" => "El formato de la imagen no es válido. Por favor, seleccione una imagen JPG, JPEG o PNG.");
+        echo json_encode($response);
+        exit();
     }
 
-    // Ejecutar la consulta de actualización
-    if ($conn->query($sql_update) === TRUE) {
-        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-        <script language='JavaScript'>
-        document.addEventListener('DOMContentLoaded', function() {
-            Swal.fire({
-                icon: 'success',
-                title: 'Se actualizó correctamente',
-                showCancelButton: false,
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'OK',
-                timer: 1500
-              }).then(() => {
-                location.assign('../config.php');
-              });
-        });
-        </script>";
-    } else {
-        echo "Error al actualizar el medicamento: " . $conn->error;
-    }
+    // Mover el archivo al directorio de imágenes de perfil
+    $directorio = "../assets/img/fotosperfil/";
+    $rutaArchivo = $directorio . $nombreArchivo;
+    move_uploaded_file($imagen['tmp_name'], $rutaArchivo);
 
-    $conn->close();
+    // Actualizar la ruta de la imagen en la base de datos
+    $stmt = $conexion->prepare("UPDATE usuario SET imagen=? WHERE id_usuario=?");
+    $stmt->bind_param("si", $nombreArchivo, $id_usuario);
+    $stmt->execute();
 }
+
+// Comprobar si la actualización fue exitosa
+if ($stmt->affected_rows > 0) {
+    // Redirigir según el tipo de usuario
+    $perfil = $_SESSION['datosuser']['rol'];
+    if ($perfil == 1) {
+        header("Location: /ALMACENUT/perfil-almacenista");
+        exit();
+    } else {
+        header("Location: /ALMACEN/perfil-alumno");
+        exit();
+    }
+} else {
+    $response = array("success" => false, "message" => "No se realizaron cambios.");
+}
+
+$stmt->close();
+$conexion->close();
+echo json_encode($response);
 ?>

@@ -162,11 +162,11 @@ require_once("validacion.php");
                     <div class="row mb-3">
                       <label for="Job" class="col-md-4 col-lg-3 col-form-label">Puesto</label>
                       <div class="col-md-8 col-lg-9">
-                        <input type="text" name="puesto" class="form-control" id="puesto"  value="<?php
-                                                            $perfil = $_SESSION['datosuser']['rol'];
-                                                            $mensaje = ($perfil == 1) ? "Almacenista" : "Alumno";
-                                                            echo $mensaje;
-                                                            ?>" aria-label="readonly input example" readonly></input>
+                        <input type="text" name="puesto" class="form-control" id="puesto" value="<?php
+                                                                                                  $perfil = $_SESSION['datosuser']['rol'];
+                                                                                                  $mensaje = ($perfil == 1) ? "Almacenista" : "Alumno";
+                                                                                                  echo $mensaje;
+                                                                                                  ?>" aria-label="readonly input example" readonly></input>
                       </div>
                     </div>
                     <div class="row mb-3">
@@ -176,7 +176,8 @@ require_once("validacion.php");
                       </div>
                     </div>
                     <input type="hidden" name="accion" value="editar">
-                    <input type="hidden" name="id" value="<?php echo $_SESSION['datosuser']['id_usuario']; ?>">
+                    <input type="hidden" name="id" value="<?php echo $_SESSION['datosuser']['id_usuario']?>">
+
 
                     <div class="text-center">
                       <button type="submit" class="btn btn-primary">Guardar Cambios</button>
