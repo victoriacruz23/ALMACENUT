@@ -1,33 +1,33 @@
 <?php
 session_start();
 require_once("../database/conexion.php");
-// // Validar el método de solicitud
-// if ($_SERVER['REQUEST_METHOD'] !== 'GET' ) {
-//     header("Location: 403");
-//     exit;
-// }
+// Validar el método de solicitud
+if ($_SERVER['REQUEST_METHOD'] !== 'GET' ) {
+    header("Location: 403");
+    exit;
+}
 
 
-// if(isset($_GET['token']) && isset($_GET['correo'])) {
-//     // Paso 2: Sanitizar las variables
-//     $token = mysqli_real_escape_string($conexion, filter_var($_GET['token'],FILTER_SANITIZE_STRING));
-//     $correo = mysqli_real_escape_string($conexion, filter_var($_GET['correo'],FILTER_SANITIZE_EMAIL));
+if(isset($_GET['token']) && isset($_GET['correo'])) {
+    // Paso 2: Sanitizar las variables
+    $token = mysqli_real_escape_string($conexion, filter_var($_GET['token'],FILTER_SANITIZE_STRING));
+    $correo = mysqli_real_escape_string($conexion, filter_var($_GET['correo'],FILTER_SANITIZE_EMAIL));
 
-//     // Paso 3: Realizar búsqueda en la tabla usuario
-//     $consulta = $conexion->query("SELECT * FROM usuario WHERE correo = '$correo' AND token = '$token'");
-//     if($consulta->num_rows == 1) {
-//         // Paso 4: Actualizar el campo token
-//         $update_token = $conexion->query("UPDATE usuario SET token = NULL WHERE correo = '$correo'");
+    // Paso 3: Realizar búsqueda en la tabla usuario
+    $consulta = $conexion->query("SELECT * FROM usuario WHERE correo = '$correo' AND token = '$token'");
+    if($consulta->num_rows == 1) {
+        // Paso 4: Actualizar el campo token
+        $update_token = $conexion->query("UPDATE usuario SET token = NULL WHERE correo = '$correo'");
 
-//     } else {
-//         header("Location: 404");
-//         exit;
-//     }
-// } else {
-//     // header("Location: inicio");
-//     echo "ND";
-//     exit;
-// }
+    } else {
+        header("Location: 404");
+        exit;
+    }
+} else {
+    // header("Location: inicio");
+    echo "ND";
+    exit;
+}
 require "../database/csrf_toke.php";
 ?>
 
@@ -77,7 +77,8 @@ require "../database/csrf_toke.php";
                                         <p class="text-center small">Ingresa tus contraseñas</p>
                                     </div>
                                     <form id="formsesion" method="POST" class="row g-3 needs-validation" novalidate>
-                                        <input type="hidden" name="csrf_token" id="csrf_token" value="<?php echo $csrf_token = set_csrf_token(); ?>">
+                                        <input type="text" name="csrf_token" id="csrf_token" value="<?php echo $csrf_token = set_csrf_token(); ?>">
+                                        <input type="text" name="correo" id="correo" value="<?php echo $correo; ?>">
                                         <div class="col-12">
                                             <label for="contra" class="form-label">Contraseña</label>
                                             <div class="input-group">
@@ -86,7 +87,7 @@ require "../database/csrf_toke.php";
                                                     <i class="bi bi-eye"></i>
                                                 </button>
                                             </div>
-                                            <p class="text-danger d-none" id="mesaje_pass2">¡Por favor, introduzca su contraseña!, Debe contener como mínimo una mayúscula, un numero y mas de 6 caracteres.<span><i class="bi bi-backspace"></i></span></p>
+                                            <p class="text-danger d-none" id="mesaje_contra">¡Por favor, introduzca su contraseña!, Debe contener como mínimo una mayúscula, un numero y mas de 6 caracteres.<span><i class="bi bi-backspace"></i></span></p>
                                         </div>
                                         <div class="col-12">
                                             <label for="contra2" class="form-label">Confirmacion contraseña</label>
@@ -100,7 +101,7 @@ require "../database/csrf_toke.php";
                                         </div>
                                     
                                         <div class="col-12" id="">
-                                            <button class="btn btn-primary w-100 disabled" id="btnsesion" onclick="inicioSesion(event);">Iniciar</button>
+                                            <button class="btn btn-primary w-100 disabled" id="btnsesion" onclick="inicioSesion(event);">Cambiar contraseña</button>
                                         </div>
 
                                     </form>

@@ -50,27 +50,31 @@ const validarCampo = (expresion, input, campo) => {
 function inicioSesion(event) {
   event.preventDefault(); // Evita que el evento por defecto se lleve a cabo
 
-  fetch('inicio-sesion', {
+  const password = document.querySelector("#contra").value,
+    password2 = document.querySelector("#contra2").value;
+  if (password !== password2) {
+    alerta("error", "Las contraseñas no coiciden");
+    return false;
+  }
+  // console.log("El dominio es: " + dominio);
+  fetch('editar-contrasena-correo', {
     method: 'POST',
     body: new FormData(formsesion)
   }).then(response => response.json()).then(response => {
-    console.log(response);
-    if (response.respuesta == 'almacen') {
-      alertair(response.icon, response.message, "inicio-almacenista");
-      return false;
-    }
-    else if (response.respuesta == 'alumno') {
-      alertair(response.icon, response.message, "inicio-alumnos");
-      return false;
-    }
-    else if (response.respuesta == false) {
-      alerta(response.icon, response.message);
-      return false;
-    }
-    else {
-      alerta(response.icon, response.message);
+    document.getElementById('btnsesion').classList.add('disabled');
+    // console.log(response);
+    if (response.respuesta == true) {
+      limpiarform();
+      // Desactivar el botón de envío
+      let dominio = window.location.hostname + "/ALMACENUT/inicio";
 
+      alertair(response.icon, response.message, 'inicio');
+      return false;
+    } else {
+      alerta(response.icon, response.message);
+      return false;
     }
+
   });
 }
 
@@ -79,13 +83,13 @@ function togglePasswordVisibility(passwordId) {
   const buttonIcon = passwordInput.nextElementSibling.querySelector('i');
 
   if (passwordInput.type === 'password') {
-      passwordInput.type = 'text';
-      buttonIcon.classList.remove('bi-eye');
-      buttonIcon.classList.add('bi-eye-slash');
+    passwordInput.type = 'text';
+    buttonIcon.classList.remove('bi-eye');
+    buttonIcon.classList.add('bi-eye-slash');
   } else {
-      passwordInput.type = 'password';
-      buttonIcon.classList.remove('bi-eye-slash');
-      buttonIcon.classList.add('bi-eye');
+    passwordInput.type = 'password';
+    buttonIcon.classList.remove('bi-eye-slash');
+    buttonIcon.classList.add('bi-eye');
   }
 }
 
@@ -105,5 +109,20 @@ function alertair(icono, titulo, ir) {
     timer: 1500
   }).then(function () {
     window.location = ir;
+  });
+}
+function limpiarform() {
+  formEv.reset();
+  // Eliminar clases is-valid y is-invalid
+  inputs.forEach(input => {
+    input.classList.remove('is-valid', 'is-invalid');
+  });
+  // Ocultar mensajes de error
+  document.querySelectorAll('.mensaje-error').forEach(mensaje => {
+    mensaje.classList.add('d-none');
+  });
+  // Restablecer estado de los campos
+  Object.keys(campos).forEach(campo => {
+    campos[campo] = false;
   });
 }

@@ -12,6 +12,7 @@ RewriteRule ^cambio-password-([^/]*)-([^/]*)$ forms/cambiarpassword.php?token=$1
 
 RewriteRule ^enviar-correo-contra$ database/enviarCorreoContra.php [L]
 RewriteRule ^editar-contrasena$ database/editarcontra.php [L]
+RewriteRule ^editar-contrasena-correo$ database/editarcontracorreo.php [L]
 RewriteRule ^registro-database$ database/registro.php [L]
 
 RewriteRule ^registro-categoria$ database/insertarcatego.php [L]
