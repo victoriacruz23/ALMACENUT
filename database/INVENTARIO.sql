@@ -44,6 +44,7 @@ CREATE TABLE usuario (
     nombre VARCHAR(100),
     apellido_p VARCHAR(150),
     correo VARCHAR(100),
+    token VARCHAR(100),
     contrasena VARCHAR(100),
     rol_id INT,
     imagen VARCHAR(255),
