@@ -7,8 +7,26 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode($response);
     exit();
 }
-include 'conexion.php';
 
+include 'conexion.php';
+include 'csrf_toke.php';
+// csrf Token 
+if (!isset($_POST['csrf_token']) && !isset($_SESSION['csrf_token'])) {
+    $ip = $_SERVER['REMOTE_ADDR']; // Obtener la dirección IP del usuario
+    // Mensaje de bloqueo
+    $response = array("respuesta" => false, "icon" => "error", "message" => "Acceso denegado. Su IP ($ip) ha sido registrada.");
+    // echo json_encode($response);
+    // exit();
+}
+$post_token  = $conexion->real_escape_string(filter_var($_POST["csrf_token"], FILTER_SANITIZE_STRING));
+$sesion_token = $_SESSION['csrf_token'];
+$validaToken = validateToken($post_token, $sesion_token);
+if ($validaToken == false) {
+    $response = array("respuesta" => false, "icon" => "error", "message" => "CRSF TOKEN INVALIDO");
+    echo json_encode($response);
+    exit;
+}
+// csrf Token 
 $password = $conexion->real_escape_string(filter_var($_POST["contra"], FILTER_SANITIZE_STRING));
 $correo = $conexion->real_escape_string(filter_var($_POST["correo"], FILTER_SANITIZE_STRING));
 $correovalido = filter_var($correo . "@utacapulco.edu.mx", FILTER_SANITIZE_EMAIL);
@@ -40,7 +58,7 @@ if (filter_var($correovalido, FILTER_VALIDATE_EMAIL)) {
                 $response = array("respuesta" => "alumno", "icon" => "success", "message" => "Bienvenido al sistema $nombre $apellidos");
             }
         } else {
-                $response = array("respuesta" => false, "icon" => "error", "message" => "Revisa tu contraseña $correovalido");
+            $response = array("respuesta" => false, "icon" => "error", "message" => "Revisa tu contraseña $correovalido");
         }
     } else {
         // La dirección de correo electrónico no es válida

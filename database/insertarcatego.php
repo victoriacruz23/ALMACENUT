@@ -1,57 +1,34 @@
 <?php
-include_once "conexion.php"; // Incluir archivo de conexión a la base de datos
-
-// Verificar si se recibió una solicitud POST
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Obtener el nombre de la categoría del formulario
-    $catego = $_POST["catego"];
-
-    // Consulta para verificar si ya existe la categoría
-    $consulta = "SELECT COUNT(*) as total FROM areas WHERE nombre = '$catego'";
-    $resultado = mysqli_query($conexion, $consulta);
-
-    // Obtener el resultado de la consulta
-    $fila = mysqli_fetch_assoc($resultado);
-    $totalCategorias = $fila["total"];
-
-    // Verificar si la categoría ya existe
-    if ($totalCategorias == 0) {
-        // Insertar la nueva categoría en la base de datos
-        $consultaInsertar = "INSERT INTO areas (nombre) VALUES ('$catego')";
-        mysqli_query($conexion, $consultaInsertar);
-        echo "
-        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-        <script language='JavaScript'>
-        document.addEventListener('DOMContentLoaded', function() {
-            Swal.fire({
-                title: 'Éxito',
-                title: 'El área se agregó correctamente.',
-                icon: 'success',
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'OK',
-              }).then(() => {
-                location.assign('/ALMACENUT/categoria-almacenista');
-            });
-        });
-        </script>";
-        exit();
-    } else {
-        echo "
-        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-        <script language='JavaScript'>
-        document.addEventListener('DOMContentLoaded', function() {
-            Swal.fire({
-                title: 'Error',
-                text:'El área ya existe, por favor ingresa otra.',
-                icon: 'error',
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'OK',
-              }).then(() => {
-                location.assign('/ALMACENUT/categoria-almacenista');
-            });
-        });
-        </script>";
-    }
-    $conexion->close();
+session_start();
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    $ip = $_SERVER['REMOTE_ADDR']; // Obtener la dirección IP del usuario
+    // Mensaje de bloqueo
+    $response = array("success" => false, "message" => "Acceso denegado. Su IP ($ip) ha sido registrada.");
+    echo json_encode($response);
+    exit();
 }
-?>
+include 'conexion.php';
+
+// Obtener el nombre de la categoría del formulario
+$catego = $conexion->escape_string(filter_var($_POST["catego"], FILTER_SANITIZE_STRING));
+
+// Consulta para verificar si ya existe la categoría
+$consulta = $conexion->query("SELECT * FROM areas WHERE nombre = '$catego'");
+
+// Verificar si la categoría ya existe
+if ($consulta->num_rows == 0) {
+    // Insertar la nueva categoría en la base de datos
+    $stmt = $conexion->prepare("INSERT INTO areas(nombre) VALUES (?)");
+    $stmt->bind_param("s", $catego);
+    $stmt->execute();
+    if ($stmt->affected_rows == 1) {
+        $response = array("respuesta" => true, "icon" => "success", "message" => "El área se agregó correctamente $catego");
+    } else {
+        $response = array("respuesta" => false, "icon" => "error", "message" => "Error al registrar, por favor ingresa otra. $catego");
+    }
+    $stmt->close();
+} else {
+    $response = array("respuesta" => false, "icon" => "error", "message" => "El área ya existe, por favor ingresa otra. $catego");
+}
+$conexion->close();
+echo json_encode($response);
