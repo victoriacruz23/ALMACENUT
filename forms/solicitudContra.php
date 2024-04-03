@@ -1,6 +1,6 @@
 <?php
-require "database/validarsesion.php";
-require "database/csrf_toke.php";
+require "../database/validarsesion.php";
+require "../database/csrf_toke.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,7 +10,7 @@ require "database/csrf_toke.php";
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
   <title>Loguin Almacen UT</title>
-  <?php require_once("forms/linkscss.php"); ?>
+  <?php require_once("../forms/linkscss.php"); ?>
   <style>
     body {
       background-image: url(imgpro/gastro.png);
@@ -44,8 +44,8 @@ require "database/csrf_toke.php";
                 <div class="card-body">
 
                   <div class="pt-4 pb-2">
-                    <h5 class="card-title text-center pb-0 fs-4">Ingrese su cuenta</h5>
-                    <p class="text-center small">Ingrese su nombre de usuario y contraseña para iniciar sesión</p>
+                    <h5 class="card-title text-center pb-0 fs-4">Solicitud de cambio de contraseña</h5>
+                    <p class="text-center small">Ingrese su nombre de usuario</p>
                   </div>
 
                   <form id="formsesion" method="POST" class="row g-3 needs-validation" novalidate>
@@ -60,38 +60,12 @@ require "database/csrf_toke.php";
                         <p class="text-danger d-none" id="mesaje_correo">!Valide su correo!</p>
                       </div>
                     </div>
-                    <div class="col-12">
-                      <label for="contra" class="form-label">Contraseña</label>
-                      <div class="input-group">
-                        <input type="password" name="contra" class="form-control" id="contra" required>
-                        <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('contra')">
-                          <i class="bi bi-eye"></i>
-                        </button>
-                      </div>
-                      <p class="text-danger d-none" id="mesaje_contra">!Valide su contraseña!</p>
-                    </div>
                     <div class="col-12" id="">
                       <button class="btn btn-primary w-100 disabled" id="btnsesion" onclick="inicioSesion(event);">Iniciar</button>
                     </div>
                   </form>
                   <div class="col-12">
-                    <p class="small mb-0">¿No tienes cuenta?<a href="registro">Crea una cuenta</a></p>
-                    <p class="small mb-0">¿Olvidaste tu contraseña?<a href="solicitud-cambio-password">Recuperar contraseña</a></p>
-                  </div>
-                  <div class="col-12" style="margin-top: 10px;">
-                    <?php
-                    include('config.php');
-                    $google_client = $google_client2;
-                    if (isset($_GET["code"])) {
-                      $token = $google_client->fetchAccessTokenWithAuthCode($_GET["code"]);
-                      if (!isset($token['error'])) {
-                        $google_client->setAccessToken($token['access_token']);
-                        $google_service = new Google_Service_Oauth2($google_client);
-                        $data = $google_service->userinfo->get();
-                      }
-                    }
-                    ?>
-                    <a href="<?php echo $google_client->createAuthUrl(); ?>" class="btn btn-outline-success w-100"> <img src="assets/img/icon-google.svg" alt="Descripción del SVG"> Inicia sesion con google</a>
+                    <p class="small mb-0">¿Ya estas registrado?<a href="inicio">Iniciar sesion</a></p>
                   </div>
 
                 </div>
@@ -127,7 +101,7 @@ require "database/csrf_toke.php";
   <script src="assets/vendor/php-email-form/validate.js"></script>
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
-  <script src="assets/js/expresesion.js"></script>
+  <script src="assets/js/solicitudcontra.js"></script>
 
 </body>
 

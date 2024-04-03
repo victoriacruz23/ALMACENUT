@@ -18,7 +18,7 @@
 <!-- include in a container a heading, paragraph and svg for the keyhole -->
 <div class="container">
   <h1>403</h1>
-  <p>ACCESO RESTRINGIDO</p>
+  <p>ACCESO RESTRINGIDO <a style="text-decoration: none;" href="inicio">Volver a inicio</a></p>
   <svg class="keyhole">
     <use href="#keyhole"/>
   </svg>
