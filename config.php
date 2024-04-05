@@ -18,7 +18,7 @@ function initGoogleClient($clientId, $clientSecret, $redirectUri) {
 }
 
 // Configuración para el primer lugar registro.php y register.php
-$google_client1 = initGoogleClient('302104777904-m4mjjhts2qltgr7ivvuggddcub28h2fr.apps.googleusercontent.com', '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', 'http://localhost/ALMACENUT/registro-google');
+$google_client1 = initGoogleClient('302104777904-m4mjjhts2qltgr7ivvuggddcub28h2fr.apps.googleusercontent.com', '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', 'https://almacenuta.com');
 
 // Configuración para el segundo lugar
-$google_client2 = initGoogleClient('302104777904-m4mjjhts2qltgr7ivvuggddcub28h2fr.apps.googleusercontent.com', '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', 'http://localhost/ALMACENUT/inicio-sesion-google');
+$google_client2 = initGoogleClient('302104777904-m4mjjhts2qltgr7ivvuggddcub28h2fr.apps.googleusercontent.com', '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', 'https://almacenuta.com/inicio-sesion-google');

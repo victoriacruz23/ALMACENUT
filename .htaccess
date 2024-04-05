@@ -36,7 +36,7 @@ RewriteRule ^perfil-almacenista$ almacenista/perfil.php [L]
 RewriteRule ^inicio-alumnos$ alumnos/home.php [L]
 
 
-RewriteRule ^404/?$ forms/403.php
+RewriteRule ^404/?$ forms/404.php
 RewriteRule ^403/?$ forms/403.php
-ErrorDocument 403 http://localhost/ALMACENUT/403
-ErrorDocument 404 http://localhost/ALMACENUT/404
+ErrorDocument 403 https://almacenuta.com/403
+ErrorDocument 404 https://almacenuta.com/404

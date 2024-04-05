@@ -48,7 +48,7 @@ require "database/csrf_toke.php";
                     <p class="text-center small">Ingrese su nombre de usuario y contraseña para iniciar sesión</p>
                   </div>
 
-                  <form id="formsesion" method="POST" class="row g-3 needs-validation" novalidate>
+                  <form  onkeypress="if(event.keyCode == 13) return false;" id="formsesion" method="POST" class="row g-3 needs-validation" novalidate>
                     <div class="col-12">
                       <input type="hidden" name="csrf_token" id="csrf_token" value="<?php echo $csrf_token = set_csrf_token(); ?>">
                       <label for="correo" class="form-label">Correo</label>

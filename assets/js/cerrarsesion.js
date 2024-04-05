@@ -12,7 +12,7 @@ function cerrarsesion(event) {
     }).then((result) => {
       if (result.isConfirmed) {
         var domain = window.location.protocol + '//' + window.location.hostname,
-          ruta = `${domain}/ALMACENUT/cerrar-session`;
+          ruta = `${domain}/cerrar-session`;
         fetch(`${ruta}`).then(response => response.json()).then(response => {
           if (response.success == true) {
             alertfin('success', `${response.message}`);

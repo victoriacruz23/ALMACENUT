@@ -76,9 +76,9 @@ require "../database/csrf_toke.php";
                                         <h5 class="card-title text-center pb-0 fs-4">Cambio de contraseña</h5>
                                         <p class="text-center small">Ingresa tus contraseñas</p>
                                     </div>
-                                    <form id="formsesion" method="POST" class="row g-3 needs-validation" novalidate>
-                                        <input type="text" name="csrf_token" id="csrf_token" value="<?php echo $csrf_token = set_csrf_token(); ?>">
-                                        <input type="text" name="correo" id="correo" value="<?php echo $correo; ?>">
+                                    <form id="formsesion" onkeypress="if(event.keyCode == 13) return false;" method="POST" class="row g-3 needs-validation" novalidate>
+                                        <input type="hidden" name="csrf_token" id="csrf_token" value="<?php echo $csrf_token = set_csrf_token(); ?>">
+                                        <input type="hidden" name="correo" id="correo" value="<?php echo $correo; ?>">
                                         <div class="col-12">
                                             <label for="contra" class="form-label">Contraseña</label>
                                             <div class="input-group">

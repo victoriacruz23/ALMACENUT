@@ -1,3 +1,7 @@
+<?php
+  header("Location: 403");
+  exit;
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -74,15 +78,13 @@
       <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
         <div class="container">
           <div class="row justify-content-center">
-            <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
-
+            <div class="col-lg-4 col-12 col-sm-12  d-flex flex-column align-items-center justify-content-center">
               <div class="d-flex justify-content-center py-4">
                 <a href="index.php" class="logo d-flex align-items-center w-auto">
                   <img src="assets/img/img/logo.png" alt="" width="50">
                   <span class="d-none d-lg-block">Almacen UT</span>
                 </a>
               </div><!-- End Logo -->
-
               <div class="card mb-3">
 
                 <div class="card-body">
@@ -110,7 +112,7 @@
                     <div class="col-12">
                       <label for="Email" class="form-label">Correo Electronico</label>
                       <input type="hidden" name="email" value="<?php echo $correo; ?>" id="email" required>
-                      <p class="form-control"><?php echo $correo; ?></p>
+                     <?php //<p class="form-control"> echo $correo; </p> ?>
                     </div>
                     <div class="col-12">
                       <label for="Password" class="form-label">Contraseña</label>
@@ -150,7 +152,6 @@
                   </form>
                 </div>
               </div>
-
               <div class="credits">
                 <!-- All the links in the footer should remain intact. -->
                 <!-- You can delete the links only if you purchased the pro version. -->

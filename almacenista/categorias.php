@@ -132,7 +132,7 @@ require_once("validacion.php");
               </div>
               <div class="modal-body">
                 <!-- Formulario para agregar nueva categoría -->
-                <form action="database/insertarcatego.php" id="formnevcat" method="POST">
+                <form  onkeypress="if(event.keyCode == 13) return false;" action="database/insertarcatego.php" id="formnevcat" method="POST">
                   <div class="mb-3">
                     <label for="catego" class="form-label">Nombre del Área:</label>
                     <input type="text" class="form-control" id="catego" name="catego" required>

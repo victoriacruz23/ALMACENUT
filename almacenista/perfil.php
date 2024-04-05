@@ -121,7 +121,7 @@ require "../database/csrf_toke.php";
                 <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                   <!-- Profile Edit Form -->
-                  <form action="editar-perfil" method="POST" enctype="multipart/form-data">
+                  <form onkeypress="if(event.keyCode == 13) return false;" action="editar-perfil" method="POST" enctype="multipart/form-data">
                     <div class="row mb-3">
                       <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Foto del Usuario</label>
                       <div class="col-md-8 col-lg-9">
@@ -179,7 +179,7 @@ require "../database/csrf_toke.php";
 
                 <div class="tab-pane fade pt-3" id="profile-change-password">
                   <!-- Change Password Form -->
-                  <form id="editarcontra" method="POST">
+                  <form  onkeypress="if(event.keyCode == 13) return false;" id="editarcontra" method="POST">
                   <input type="hidden" name="csrf_token" id="csrf_token" value="<?php echo $csrf_token = set_csrf_token(); ?>">
                     <div class="row mb-3">
                       <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Contraseña Actual</label>
