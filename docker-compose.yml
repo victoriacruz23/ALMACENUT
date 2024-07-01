@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  web: 
+    image: proyectoc 
+    environment: 
+      - MYSQL_HOST=mysql
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=historialclinico
+      - MYSQL_USER=yoce
+      - MYSQL_PASSWORD=12345
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_HOST=mysql
+      - PMA_USER=yoce
+      - PMA_PASSWORD=12345
+      - PMA_PORT=3306
+    ports:
+      - "8081:80"
+    depends_on:
+      - mysql
+
+volumes:
+  mysql_data:
